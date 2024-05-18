@@ -9,7 +9,7 @@ import sit.or3.demo.service.StatusService;
 
 import java.util.List;
 
-@CrossOrigin(origins = {"http://ip23or3.sit.kmutt.ac.th", "http://localhost:5173"})
+@CrossOrigin(origins = {"http://ip23or3.sit.kmutt.ac.th", "http://localhost:5173" , "http://intproj23.sit.kmutt.ac.th"})
 @RestController
 @RequestMapping("/v2/statuses")
 public class StatusController {

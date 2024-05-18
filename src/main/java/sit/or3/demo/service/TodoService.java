@@ -93,32 +93,32 @@ public class TodoService {
             }
         }
 
-    Todo todo = new Todo();
-    todo.setTitle(todoPostDTO.getTitle() != null ? todoPostDTO.getTitle().trim() : null);
-    // Check if description is empty string and if so, set it to null
-    todo.setDescription((todoPostDTO.getDescription() != null && !todoPostDTO.getDescription().isEmpty()) ? todoPostDTO.getDescription().trim() : null);
-    // Check if assignees is empty string and if so, set it to null
-    todo.setAssignees((todoPostDTO.getAssignees() != null && !todoPostDTO.getAssignees().isEmpty()) ? todoPostDTO.getAssignees().trim() : null);
-    todo.setStatus(status);
-    todo.setCreatedOn(ZonedDateTime.now(ZoneId.of("Z"))); // set the createdOn to current time
-    todo.setUpdatedOn(ZonedDateTime.now(ZoneId.of("Z"))); // set the updatedOn to current time
+        Todo todo = new Todo();
+        todo.setTitle(todoPostDTO.getTitle() != null ? todoPostDTO.getTitle().trim() : null);
+        // Check if description is empty string and if so, set it to null
+        todo.setDescription((todoPostDTO.getDescription() != null && !todoPostDTO.getDescription().isEmpty()) ? todoPostDTO.getDescription().trim() : null);
+        // Check if assignees is empty string and if so, set it to null
+        todo.setAssignees((todoPostDTO.getAssignees() != null && !todoPostDTO.getAssignees().isEmpty()) ? todoPostDTO.getAssignees().trim() : null);
+        todo.setStatus(status);
+        todo.setCreatedOn(ZonedDateTime.now(ZoneId.of("Z"))); // set the createdOn to current time
+        todo.setUpdatedOn(ZonedDateTime.now(ZoneId.of("Z"))); // set the updatedOn to current time
 
-    todo = repository.save(todo);
+        todo = repository.save(todo);
 
-    // Convert the saved Todo entity to TodoResponseDTO
-    TodoResponseDTO response = new TodoResponseDTO();
-    response.setId(todo.getId());
-    response.setTitle(todo.getTitle());
-    response.setDescription(todo.getDescription());
-    response.setAssignees(todo.getAssignees());
-    if (todo.getStatus() != null) {
-        StatusNameDTO statusNameDTO = new StatusNameDTO();
-        statusNameDTO.setName(todo.getStatus().getName());
-        response.setStatus(statusNameDTO.getName());
+        // Convert the saved Todo entity to TodoResponseDTO
+        TodoResponseDTO response = new TodoResponseDTO();
+        response.setId(todo.getId());
+        response.setTitle(todo.getTitle());
+        response.setDescription(todo.getDescription());
+        response.setAssignees(todo.getAssignees());
+        if (todo.getStatus() != null) {
+            StatusNameDTO statusNameDTO = new StatusNameDTO();
+            statusNameDTO.setName(todo.getStatus().getName());
+            response.setStatus(statusNameDTO.getName());
+        }
+
+        return response;
     }
-
-    return response;
-}
 
 
     @Transactional

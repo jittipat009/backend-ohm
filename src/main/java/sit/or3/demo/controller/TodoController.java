@@ -17,7 +17,7 @@ import sit.or3.demo.service.TodoService;
 import java.util.List;
 
 
-@CrossOrigin(origins = {"http://ip23or3.sit.kmutt.ac.th", "http://localhost:5173"})
+@CrossOrigin(origins = {"http://ip23or3.sit.kmutt.ac.th", "http://localhost:5173" , "http://intproj23.sit.kmutt.ac.th"})
 @RestController
 @RequestMapping("/v2/tasks")
 public class TodoController {
@@ -25,7 +25,7 @@ public class TodoController {
     private TodoService service;
 
 
-//    @GetMapping("")
+    //    @GetMapping("")
 //    public List<TodoDTO> getAllTodo(){
 //        return service.getAllTodo();
 //    }
@@ -36,9 +36,9 @@ public class TodoController {
 
     @PostMapping("")
     public ResponseEntity<TodoResponseDTO> addNewTodo(@RequestBody TodoPostDTO todoPostDTO){
-    TodoResponseDTO createdTodo = service.createNewTodo(todoPostDTO);
-    return new ResponseEntity<>(createdTodo, HttpStatus.CREATED);
-}
+        TodoResponseDTO createdTodo = service.createNewTodo(todoPostDTO);
+        return new ResponseEntity<>(createdTodo, HttpStatus.CREATED);
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Todo> updateTodo(@PathVariable Integer id, @RequestBody TodoByIdDTO todoByIdDTO){

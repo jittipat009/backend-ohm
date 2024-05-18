@@ -15,10 +15,10 @@ public class Status {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id", unique=true, nullable=false, length=50)
+    @Column(name="id")
     private Integer id;
 
-    @Column(name="name")
+    @Column(name="name", unique=true, nullable=false, length=50)
     private String name;
 
     @JsonProperty("description")
