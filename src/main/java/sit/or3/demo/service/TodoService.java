@@ -15,6 +15,7 @@ import sit.or3.demo.repositories.TodoRepository;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,20 +31,26 @@ public class TodoService {
 //    }
 
 
-    public List<Todo> getTasks(String sortBy, List<String> filterStatuses) {
-        if (filterStatuses != null && !filterStatuses.isEmpty()) {
-            if ("status.name".equals(sortBy)) {
-                return repository.findByStatusInOrderByStatusAsc(filterStatuses);
-            } else {
-                return repository.findByStatusIn(filterStatuses);
-            }
-        } else {
-            if ("status.name".equals(sortBy)) {
-                return repository.findAllByOrderByStatusAsc();
-            } else {
-                return repository.findAll();
-            }
+    public List<TodoDTO> getTasks(List<String> filterStatuses, String sortBy) {
+        if (sortBy == null || sortBy.isEmpty()) {
+            sortBy = "id";
         }
+        if (filterStatuses == null) {
+            filterStatuses = new ArrayList<>();
+        }
+        return repository.findByStatusAndSort(filterStatuses, sortBy).stream().map(todo -> {
+                    TodoDTO dto = new TodoDTO();
+                    dto.setId(todo.getId());
+                    dto.setTitle(todo.getTitle());
+                    dto.setAssignees(todo.getAssignees());
+                    if (todo.getStatus() != null) {
+                        dto.setStatus(todo.getStatus().getName());
+                    } else {
+                        dto.setStatus(null);
+                    }
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
     public List<TodoDTO> getAllTodo() {
         return repository.findAll().stream()

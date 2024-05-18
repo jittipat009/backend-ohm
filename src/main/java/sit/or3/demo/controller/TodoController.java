@@ -1,9 +1,11 @@
 package sit.or3.demo.controller;
 
 
+import io.swagger.models.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import sit.or3.demo.dto.TodoByIdDTO;
@@ -12,9 +14,12 @@ import sit.or3.demo.dto.TodoPostDTO;
 import sit.or3.demo.dto.TodoResponseDTO;
 import sit.or3.demo.entities.Todo;
 import sit.or3.demo.service.TodoService;
+import springfox.documentation.swagger2.mappers.ModelMapper;
 
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @CrossOrigin(origins = {"http://ip23or3.sit.kmutt.ac.th", "http://localhost:5173" , "http://intproj23.sit.kmutt.ac.th"})
@@ -24,17 +29,15 @@ public class TodoController {
     @Autowired
     private TodoService service;
 
-
-    //    @GetMapping("")
-//    public List<TodoDTO> getAllTodo(){
-//        return service.getAllTodo();
-//    }
     @GetMapping("")
-    public ResponseEntity<List<Todo>> getTasks(
-            @RequestParam(required = false) String sortBy,
-            @RequestParam(required = false) List<String> filterStatuses) {
-        List<Todo> tasks = service.getTasks(sortBy, filterStatuses);
-        return new ResponseEntity<>(tasks, HttpStatus.OK);
+    public ResponseEntity<List<TodoDTO>> getTasks(@RequestParam(required = false) List<String> filterStatuses, @RequestParam(defaultValue = "createdDate") String sortBy) {
+        try {
+            List<TodoDTO> task = service.getTasks(filterStatuses, sortBy);
+            return new ResponseEntity<>(task, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println(e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")
