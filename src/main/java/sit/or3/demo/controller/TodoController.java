@@ -29,6 +29,14 @@ public class TodoController {
 //    public List<TodoDTO> getAllTodo(){
 //        return service.getAllTodo();
 //    }
+    @GetMapping("")
+    public ResponseEntity<List<Todo>> getTasks(
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) List<String> filterStatuses) {
+        List<Todo> tasks = service.getTasks(sortBy, filterStatuses);
+        return new ResponseEntity<>(tasks, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public TodoByIdDTO getTodoById(@PathVariable Integer id) {
         return  service.getTodo(id);
@@ -51,17 +59,17 @@ public class TodoController {
         service.removeTodo(id);
     }
 
-    @GetMapping("")
-    public ResponseEntity<List<TodoDTO>> getAllTodo(){
-        try {
-            List<TodoDTO> todos = service.getAllTodo();
-            return new ResponseEntity<>(todos, HttpStatus.OK);
-        } catch (Exception e) {
-            // Log the exception
-            System.err.println(e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+//    @GetMapping("")
+//    public ResponseEntity<List<TodoDTO>> getAllTodo(){
+//        try {
+//            List<TodoDTO> todos = service.getAllTodo();
+//            return new ResponseEntity<>(todos, HttpStatus.OK);
+//        } catch (Exception e) {
+//            // Log the exception
+//            System.err.println(e);
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
     @ExceptionHandler(HttpClientErrorException.class)
     public ResponseEntity<String> handleHttpClientErrorException(HttpClientErrorException ex) {
         return new ResponseEntity<>(ex.getMessage(), ex.getStatusCode());

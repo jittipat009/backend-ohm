@@ -10,5 +10,10 @@ import java.util.List;
 public interface TodoRepository extends JpaRepository<Todo, Integer> {
     List<Todo> findByStatus(Status status);
 
+    List<Todo> findAllByOrderByStatusAsc();
+
+    List<Todo> findByStatusIn(List<String> statuses);
+
+    List<Todo> findByStatusInOrderByStatusAsc(List<String> statuses);
 
 }

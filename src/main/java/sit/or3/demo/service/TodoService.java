@@ -30,7 +30,21 @@ public class TodoService {
 //    }
 
 
-
+    public List<Todo> getTasks(String sortBy, List<String> filterStatuses) {
+        if (filterStatuses != null && !filterStatuses.isEmpty()) {
+            if ("status.name".equals(sortBy)) {
+                return repository.findByStatusInOrderByStatusAsc(filterStatuses);
+            } else {
+                return repository.findByStatusIn(filterStatuses);
+            }
+        } else {
+            if ("status.name".equals(sortBy)) {
+                return repository.findAllByOrderByStatusAsc();
+            } else {
+                return repository.findAll();
+            }
+        }
+    }
     public List<TodoDTO> getAllTodo() {
         return repository.findAll().stream()
                 .map(todo -> {
